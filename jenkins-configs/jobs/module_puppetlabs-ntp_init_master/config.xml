@@ -14,63 +14,6 @@
     <se.diabol.jenkins.pipeline.PipelineProperty plugin="delivery-pipeline-plugin@0.8.6">
       <stageName>init</stageName>
     </se.diabol.jenkins.pipeline.PipelineProperty>
-    <job-metadata plugin="metadata@1.1.0b">
-      <values class="linked-list">
-        <metadata-tree>
-          <name>job-info</name>
-          <parent class="job-metadata" reference="../../.."/>
-          <generated>true</generated>
-          <exposedToEnvironment>false</exposedToEnvironment>
-          <children class="linked-list">
-            <metadata-tree>
-              <name>last-saved</name>
-              <description></description>
-              <parent class="metadata-tree" reference="../../.."/>
-              <generated>true</generated>
-              <exposedToEnvironment>false</exposedToEnvironment>
-              <children class="linked-list">
-                <metadata-date>
-                  <name>time</name>
-                  <description></description>
-                  <parent class="metadata-tree" reference="../../.."/>
-                  <generated>true</generated>
-                  <exposedToEnvironment>false</exposedToEnvironment>
-                  <value>
-                    <time>1412177060663</time>
-                    <timezone>UTC</timezone>
-                  </value>
-                  <checked>false</checked>
-                </metadata-date>
-                <metadata-tree>
-                  <name>user</name>
-                  <parent class="metadata-tree" reference="../../.."/>
-                  <generated>true</generated>
-                  <exposedToEnvironment>false</exposedToEnvironment>
-                  <children class="linked-list">
-                    <metadata-string>
-                      <name>display-name</name>
-                      <description></description>
-                      <parent class="metadata-tree" reference="../../.."/>
-                      <generated>true</generated>
-                      <exposedToEnvironment>false</exposedToEnvironment>
-                      <value>unknown</value>
-                    </metadata-string>
-                    <metadata-string>
-                      <name>full-name</name>
-                      <description></description>
-                      <parent class="metadata-tree" reference="../../.."/>
-                      <generated>true</generated>
-                      <exposedToEnvironment>false</exposedToEnvironment>
-                      <value>unknown</value>
-                    </metadata-string>
-                  </children>
-                </metadata-tree>
-              </children>
-            </metadata-tree>
-          </children>
-        </metadata-tree>
-      </values>
-    </job-metadata>
   </properties>
   <scm class="hudson.plugins.git.GitSCM" plugin="git@2.2.6">
     <configVersion>2</configVersion>
@@ -109,20 +52,31 @@
 
 set -e
 
+# The Git plugin should be told to clone the module repository to a directory
+# by the same name as the module. We will do most of our work from within the
+# the module&apos;s working directory.
 cd ntp
 
-#Select ruby version
+# Select Ruby version using RVM
 . /usr/local/rvm/scripts/rvm; rvm use ruby-1.9.3-p484
 echo
-echo Checking ruby version
+echo Ruby Version Selected:
 ruby -v
 
-# Install project dependencies using bundler
+# Install project dependencies using Bundler
+#
+# We will instruct Bundler to keep the gems installed in a directory under the
+# module root. This way, when we create our archive, the gems will be shipped
+# with it.
 echo
 echo Installing Dependencies
 bundle install --path ./.bundle
 
 # Creating archive
+#
+# Assuming everything went well, this archive will be saved and used during
+# other build stages. Other builds will bring in this archive by using the
+# &quot;Copy Artifact Plugin&quot; plugin (plugin-id: copyartifact).
 echo
 echo &quot;Creating Artifact&quot;
 tar -czf ../archive.tgz .</command>
