@@ -4,68 +4,7 @@
   <description></description>
   <displayName>ntp (master): Step 1 -- Lint Test</displayName>
   <keepDependencies>false</keepDependencies>
-  <properties>
-    <se.diabol.jenkins.pipeline.PipelineProperty plugin="delivery-pipeline-plugin@0.8.6">
-      <stageName>lint</stageName>
-    </se.diabol.jenkins.pipeline.PipelineProperty>
-    <job-metadata plugin="metadata@1.1.0b">
-      <values class="linked-list">
-        <metadata-tree>
-          <name>job-info</name>
-          <parent class="job-metadata" reference="../../.."/>
-          <generated>true</generated>
-          <exposedToEnvironment>false</exposedToEnvironment>
-          <children class="linked-list">
-            <metadata-tree>
-              <name>last-saved</name>
-              <description></description>
-              <parent class="metadata-tree" reference="../../.."/>
-              <generated>true</generated>
-              <exposedToEnvironment>false</exposedToEnvironment>
-              <children class="linked-list">
-                <metadata-date>
-                  <name>time</name>
-                  <description></description>
-                  <parent class="metadata-tree" reference="../../.."/>
-                  <generated>true</generated>
-                  <exposedToEnvironment>false</exposedToEnvironment>
-                  <value>
-                    <time>1412180190710</time>
-                    <timezone>UTC</timezone>
-                  </value>
-                  <checked>false</checked>
-                </metadata-date>
-                <metadata-tree>
-                  <name>user</name>
-                  <parent class="metadata-tree" reference="../../.."/>
-                  <generated>true</generated>
-                  <exposedToEnvironment>false</exposedToEnvironment>
-                  <children class="linked-list">
-                    <metadata-string>
-                      <name>display-name</name>
-                      <description></description>
-                      <parent class="metadata-tree" reference="../../.."/>
-                      <generated>true</generated>
-                      <exposedToEnvironment>false</exposedToEnvironment>
-                      <value>unknown</value>
-                    </metadata-string>
-                    <metadata-string>
-                      <name>full-name</name>
-                      <description></description>
-                      <parent class="metadata-tree" reference="../../.."/>
-                      <generated>true</generated>
-                      <exposedToEnvironment>false</exposedToEnvironment>
-                      <value>unknown</value>
-                    </metadata-string>
-                  </children>
-                </metadata-tree>
-              </children>
-            </metadata-tree>
-          </children>
-        </metadata-tree>
-      </values>
-    </job-metadata>
-  </properties>
+  <properties/>
   <scm class="hudson.scm.NullSCM"/>
   <canRoam>true</canRoam>
   <disabled>false</disabled>
@@ -74,7 +13,7 @@
   <triggers/>
   <concurrentBuild>false</concurrentBuild>
   <builders>
-    <hudson.plugins.copyartifact.CopyArtifact plugin="copyartifact@1.31">
+    <hudson.plugins.copyartifact.CopyArtifact plugin="copyartifact@1.32.1">
       <project>module_puppetlabs-ntp_init_master</project>
       <filter>archive.tgz</filter>
       <target></target>
@@ -89,30 +28,22 @@
     <hudson.tasks.Shell>
       <command>#!/bin/bash
 
-mkdir ntp
-mv archive.tgz ntp
-cd ntp
+# Unpack our archive created earlier in the initialization job
 tar -zxf archive.tgz
 
+# Set our Ruby Version with RVM
 . /usr/local/rvm/scripts/rvm; rvm use ruby-1.9.3-p484
+echo
+echo Ruby Version Selected:
+ruby -v
 
-
+# Execute the lint testing
 echo
 echo Running Lint Testing
 bundle exec rake lint</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers>
-    <hudson.plugins.parameterizedtrigger.BuildTrigger plugin="parameterized-trigger@2.25">
-      <configs>
-        <hudson.plugins.parameterizedtrigger.BuildTriggerConfig>
-          <configs class="empty-list"/>
-          <projects>module_puppetlabs-ntp_unit_master,</projects>
-          <condition>SUCCESS</condition>
-          <triggerWithNoParameters>true</triggerWithNoParameters>
-        </hudson.plugins.parameterizedtrigger.BuildTriggerConfig>
-      </configs>
-    </hudson.plugins.parameterizedtrigger.BuildTrigger>
     <hudson.plugins.ws__cleanup.WsCleanup plugin="ws-cleanup@0.24">
       <deleteDirs>false</deleteDirs>
       <skipWhenFailed>false</skipWhenFailed>

@@ -23,9 +23,9 @@ node default{
   jenkins::plugin { 'ws-cleanup': }
   jenkins::plugin { 'delivery-pipeline-plugin': }
   jenkins::plugin { 'copyartifact': }
-  jenkins::plugin { 'parameterized-trigger': }
   jenkins::plugin { 'greenballs': }
   jenkins::plugin { 'chucknorris': }
+  jenkins::plugin { 'build-flow-plugin': }
 
   # Other Dependencies utilized in our Jenkins plugins and/or our build steps
   ############################################################################
@@ -36,7 +36,9 @@ node default{
   # since this is a simple pipeline example, we're only going to install one
   # ruby for the time being. Version 1.9.3-p484 is the current version
   # packaged with Puppet Enterprise 3.3.x.
-  include ::rvm
+  class { '::rvm':
+    version => '1.25.33',
+  }
   rvm::system_user {'jenkins':}
   rvm_system_ruby { '1.9.3-p484':
     ensure => 'present',
