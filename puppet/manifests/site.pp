@@ -26,6 +26,7 @@ node default{
   jenkins::plugin { 'greenballs': }
   jenkins::plugin { 'chucknorris': }
   jenkins::plugin { 'build-flow-plugin': }
+  jenkins::plugin { 'dynamic-axis': }
 
   # Other Dependencies utilized in our Jenkins plugins and/or our build steps
   ############################################################################
