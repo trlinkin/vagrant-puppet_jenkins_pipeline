@@ -1,10 +1,20 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<project>
+<matrix-project plugin="matrix-project@1.3">
   <actions/>
   <description></description>
   <displayName>ntp (master): Step 2 -- Unit Testing</displayName>
   <keepDependencies>false</keepDependencies>
-  <properties/>
+  <properties>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.StringParameterDefinition>
+          <name>RUBY_VERSIONS</name>
+          <description>The versions of Ruby that the unit tests will test against. Space separated list. Available within the unit job via the RUBY_VERSION environment variable.</description>
+          <defaultValue>1.9.3-p484 2.1.1</defaultValue>
+        </hudson.model.StringParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
   <scm class="hudson.scm.NullSCM"/>
   <canRoam>true</canRoam>
   <disabled>false</disabled>
@@ -12,6 +22,18 @@
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
   <triggers/>
   <concurrentBuild>false</concurrentBuild>
+  <axes>
+    <ca.silvermaplesolutions.jenkins.plugins.daxis.DynamicAxis plugin="dynamic-axis@1.0.2">
+      <name>RUBY_VERSION</name>
+      <values>
+        <string>RUBY_VERSIONS</string>
+      </values>
+      <varName>RUBY_VERSIONS</varName>
+      <axisValues>
+        <string>default</string>
+      </axisValues>
+    </ca.silvermaplesolutions.jenkins.plugins.daxis.DynamicAxis>
+  </axes>
   <builders>
     <hudson.plugins.copyartifact.CopyArtifact plugin="copyartifact@1.32.1">
       <project>module_puppetlabs-ntp_init_master</project>
@@ -28,16 +50,22 @@
     <hudson.tasks.Shell>
       <command>#!/bin/bash
 
-. /usr/local/rvm/scripts/rvm; rvm use 1.9.3-p484
+. /usr/local/rvm/scripts/rvm; rvm use ${RUBY_VERSION}
+echo
+echo Ruby Version Selected:
+ruby -v
 
 echo
 echo Extracting the build artifact
 tar -zxf archive.tgz
 
+# Re-establish the Ruby Gem bundle for the particular version we&apos;re unit testing with
+rm -rf ./bundle
+bundle install --path ./bundle
+
 echo
 echo Running the rspec-puppet unit tests
 echo
-echo &quot;Running tests&quot;
 bundle exec rake spec</command>
     </hudson.tasks.Shell>
   </builders>
@@ -65,4 +93,7 @@ bundle exec rake spec</command>
       <externalDelete></externalDelete>
     </hudson.plugins.ws__cleanup.PreBuildCleanup>
   </buildWrappers>
-</project>
+  <executionStrategy class="hudson.matrix.DefaultMatrixExecutionStrategyImpl">
+    <runSequentially>false</runSequentially>
+  </executionStrategy>
+</matrix-project>
