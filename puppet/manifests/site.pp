@@ -41,7 +41,7 @@ node default{
     version => '1.25.33',
   }
   rvm::system_user {'jenkins':}
-  rvm_system_ruby { '1.9.3-p484', '2.1.1':
+  rvm_system_ruby { ['1.9.3-p484', '2.1.1']:
     ensure => 'present',
   }
 
