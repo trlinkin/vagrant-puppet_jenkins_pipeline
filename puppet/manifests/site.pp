@@ -21,7 +21,6 @@ node default{
   # Primary Plugins
   jenkins::plugin { 'git': }
   jenkins::plugin { 'ws-cleanup': }
-  jenkins::plugin { 'delivery-pipeline-plugin': }
   jenkins::plugin { 'copyartifact': }
   jenkins::plugin { 'greenballs': }
   jenkins::plugin { 'chucknorris': }

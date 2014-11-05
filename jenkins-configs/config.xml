@@ -25,28 +25,6 @@
       <filterQueue>false</filterQueue>
       <properties class="hudson.model.View$PropertyList"/>
     </hudson.model.AllView>
-    <se.diabol.jenkins.pipeline.DeliveryPipelineView plugin="delivery-pipeline-plugin@0.8.6">
-      <owner class="hudson" reference="../../.."/>
-      <name>ntp</name>
-      <filterExecutors>false</filterExecutors>
-      <filterQueue>false</filterQueue>
-      <properties class="hudson.model.View$PropertyList"/>
-      <componentSpecs>
-        <se.diabol.jenkins.pipeline.DeliveryPipelineView_-ComponentSpec>
-          <name>NTP Puppet Module</name>
-          <firstJob>module_puppetlabs-ntp_init_master</firstJob>
-        </se.diabol.jenkins.pipeline.DeliveryPipelineView_-ComponentSpec>
-      </componentSpecs>
-      <noOfPipelines>1</noOfPipelines>
-      <showAggregatedPipeline>false</showAggregatedPipeline>
-      <noOfColumns>1</noOfColumns>
-      <sorting>none</sorting>
-      <showAvatars>false</showAvatars>
-      <updateInterval>2</updateInterval>
-      <showChanges>false</showChanges>
-      <allowManualTriggers>false</allowManualTriggers>
-      <regexpFirstJobs/>
-    </se.diabol.jenkins.pipeline.DeliveryPipelineView>
   </views>
   <primaryView>All</primaryView>
   <slaveAgentPort>0</slaveAgentPort>
