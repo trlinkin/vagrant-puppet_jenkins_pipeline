@@ -4,3 +4,4 @@ mod "puppetlabs/java"
 mod 'rtyler/jenkins', '1.1.0'
 mod "maestrodev/rvm"
 mod 'puppetlabs/git'
+mod 'puppetlabs/stdlib'
