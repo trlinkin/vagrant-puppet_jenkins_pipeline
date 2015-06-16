@@ -5,7 +5,7 @@
 VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  config.vm.box = "puppetlabs/centos-6.5-64-puppet"
+  config.vm.box = "puppetlabs/centos-6.6-64-puppet"
   config.vm.hostname = 'jenkins.example.com'
 
   config.vm.provision 'puppet' do |puppet|
